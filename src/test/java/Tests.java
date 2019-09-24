@@ -1,6 +1,7 @@
 import com.ideal.swaggerfilegenerator.FreemarkerUtil;
 import com.ideal.swaggerfilegenerator.Processor;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -45,5 +46,12 @@ public class Tests {
     public void testPoi() throws IOException {
         File f = new File("C:\\Users\\zhaopei\\Desktop\\QueryResourceAccessAbility_1.0.xlsx");
         processor.getRenderMap(f);
+    }
+
+    @Test
+    public void testReplaceAll(){
+        String demo="我\r\n们\r\n是\r\n程序猿。";
+        System.out.println("转换前内容:"+demo);
+        System.out.println("转换后内容:"+ StringUtils.replaceAll(demo,"\r\n",""));
     }
 }

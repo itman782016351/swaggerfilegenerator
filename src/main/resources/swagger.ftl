@@ -12,12 +12,13 @@ tags:
     description: ${fixInfo.serverName} Open Api Controller
 paths:
   ${fixInfo.resourcePath}:
+<#if fixInfo.httpMethod=="POST">
     post:
       tags:
         - ${fixInfo.serverName}-open-api-controller
       summary: ${fixInfo.apiDesc}
       description: ${fixInfo.apiDesc}
-      operationId: createAttrSpecUsingPOST
+      operationId: create${fixInfo.resourcePath?substring(1)}UsingPOST
       consumes:
         - application/json
       produces:
@@ -33,6 +34,21 @@ paths:
             $ref: '#/definitions/${req.propertyName}DTO'
                </#if>
            </#list>
+  <#elseif fixInfo.httpMethod=="GET">
+    get:
+      tags:
+        - ${fixInfo.serverName}-open-api-controller
+      summary: ${fixInfo.apiDesc}
+        - '*/*'
+      parameters:
+    <#list reqList as req>
+        - name: ${req.propertyName}
+          in: query
+          description: ${req.desc}
+          required: ${req.required?c}
+          type: string
+    </#list>
+</#if>
       responses:
         '200':
           description: OK
@@ -53,6 +69,7 @@ paths:
       deprecated: false
 
 definitions:
+<#if fixInfo.httpMethod=="POST">
 <#list reqList as req>
   <#if !req.leafNode>
   ${req.propertyName}DTO:
@@ -72,8 +89,16 @@ definitions:
       </#if>
   </#list>
     title: ${req.propertyName}DTO
+    <#elseif req.leafNode&&req.parentOrderNo=="">
+  ${req.propertyName}DTO:
+    type: object
+    properties:
+      ${req.propertyName}:
+        type: string
+        description: ${req.desc}
   </#if>
 </#list>
+</#if>
 
 <#list respList as resp>
   <#if !resp.leafNode>
@@ -94,5 +119,12 @@ definitions:
       </#if>
     </#list>
     title: ${resp.propertyName}DTO
+  <#elseif resp.leafNode&&resp.parentOrderNo=="">
+  ${resp.propertyName}DTO:
+    type: object
+    properties:
+      ${resp.propertyName}:
+        type: string
+        description: ${resp.desc}
   </#if>
 </#list>
