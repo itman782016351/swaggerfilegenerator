@@ -111,10 +111,11 @@ public class Processor {
                 entityNode = new EntityNode(cell1Val, cell2Val, collectionJudge(cell3Val), cell4Val, requiredJudge(cell3Val));
                 reqList.add(entityNode);
             }
+            processLeafProp(reqList);
             if (i >= respStart && i <= respEnd) {
                 boolean dupflag = false;
                 for (EntityNode node : reqList) {
-                    if (cell2Val.equals(node.getPropertyName())) {
+                    if (cell2Val.equals(node.getPropertyName()) && !node.isLeafNode()) {
                         dupflag = true;
                         break;
                     }
@@ -126,7 +127,6 @@ public class Processor {
                 respList.add(entityNode);
             }
         }
-        processLeafProp(reqList);
         processLeafProp(respList);
         map.put("reqList", reqList);
         map.put("respList", respList);
