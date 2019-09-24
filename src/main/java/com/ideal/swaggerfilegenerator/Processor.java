@@ -113,10 +113,15 @@ public class Processor {
                 reqList.add(entityNode);
             }
             if (i >= respStart && i <= respEnd) {
+                boolean dupflag = false;
                 for (EntityNode node : reqList) {
                     if (cell2Val.equals(node.getPropertyName())) {
-                        continue;
+                        dupflag = true;
+                        break;
                     }
+                }
+                if (dupflag) {
+                    continue;
                 }
                 entityNode = new EntityNode(cell1Val, cell2Val, collectionJudge(cell3Val), cell4Val, requiredJudge(cell3Val));
                 respList.add(entityNode);
