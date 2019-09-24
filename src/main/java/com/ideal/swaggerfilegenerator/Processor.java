@@ -57,8 +57,8 @@ public class Processor {
             }
             reqEnd = respStart - 1;
             //处理固定信息
-            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(), "\n", "");
-            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(), "\n", "");
+            String cell1Val = commProccssStr(row.getCell(1).getStringCellValue());
+            String cell2Val = commProccssStr(row.getCell(2).getStringCellValue());
             switch (cell1Val) {
                 case "服务名":
                     fixInfo.put("serverName", cell2Val);
@@ -98,10 +98,10 @@ public class Processor {
         List<EntityNode> respList = new ArrayList<>();
         for (int i = 0; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
-            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(), "\n", "");
-            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(), "\n", "");
-            String cell3Val = StringUtils.replaceAll(row.getCell(3).getStringCellValue(), "\n", "");
-            String cell4Val = StringUtils.replaceAll(row.getCell(4).getStringCellValue(), "\n", "");
+            String cell1Val = commProccssStr(row.getCell(1).getStringCellValue());
+            String cell2Val = commProccssStr(row.getCell(2).getStringCellValue());
+            String cell3Val = commProccssStr(row.getCell(3).getStringCellValue());
+            String cell4Val = commProccssStr(row.getCell(4).getStringCellValue());
             if (StringUtils.isEmpty(cell4Val)) {
                 cell4Val = "''";
             }
@@ -186,6 +186,11 @@ public class Processor {
                 }
             }
         }
+    }
+
+    public String commProccssStr(String source) {
+        String temp = StringUtils.replace(source, "\n", "");
+        return StringUtils.strip(temp);
     }
 
 }
