@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,8 +57,8 @@ public class Processor {
             }
             reqEnd = respStart - 1;
             //处理固定信息
-            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(),"\r\n","");
-            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(),"\r\n","");
+            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(), "\n", "");
+            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(), "\n", "");
             switch (cell1Val) {
                 case "服务名":
                     fixInfo.put("serverName", cell2Val);
@@ -77,7 +76,7 @@ public class Processor {
                     fixInfo.put("eopBasePath", cell2Val);
                     break;
                 case "资源动作":
-                    fixInfo.put("httpMethod", cell2Val);
+                    fixInfo.put("httpMethod", StringUtils.upperCase(cell2Val));
                     break;
                 case "资源地址":
                     fixInfo.put("resourcePath", cell2Val);
@@ -99,10 +98,10 @@ public class Processor {
         List<EntityNode> respList = new ArrayList<>();
         for (int i = 0; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
-            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(), "\r\n", "");
-            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(), "\r\n", "");
-            String cell3Val = StringUtils.replaceAll(row.getCell(3).getStringCellValue(), "\r\n", "");
-            String cell4Val = StringUtils.replaceAll(row.getCell(4).getStringCellValue(), "\r\n", "");
+            String cell1Val = StringUtils.replaceAll(row.getCell(1).getStringCellValue(), "\n", "");
+            String cell2Val = StringUtils.replaceAll(row.getCell(2).getStringCellValue(), "\n", "");
+            String cell3Val = StringUtils.replaceAll(row.getCell(3).getStringCellValue(), "\n", "");
+            String cell4Val = StringUtils.replaceAll(row.getCell(4).getStringCellValue(), "\n", "");
             if (StringUtils.isEmpty(cell4Val)) {
                 cell4Val = "''";
             }
