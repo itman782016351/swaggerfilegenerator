@@ -45,6 +45,7 @@ public class Processor {
         int respStart = 0;
         int respEnd = sheet.getLastRowNum();
         Map fixInfo = new HashMap();
+        String httpMethod = "";
         for (int i = 0; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row.getCell(0).getStringCellValue().equals("输入")) {
@@ -74,6 +75,7 @@ public class Processor {
                     break;
                 case "资源动作":
                     fixInfo.put("httpMethod", StringUtils.upperCase(cell2Val));
+                    httpMethod = StringUtils.upperCase(cell2Val);
                     break;
                 case "资源地址":
                     fixInfo.put("resourcePath", cell2Val);
@@ -125,7 +127,9 @@ public class Processor {
             }
         }
         processLeafProp(respList);
-        afterProcess(reqList, "req");
+        if ("POST".equals(httpMethod)) {
+            afterProcess(reqList, "req");
+        }
         afterProcess(respList, "resp");
         map.put("reqList", reqList);
         map.put("respList", respList);
