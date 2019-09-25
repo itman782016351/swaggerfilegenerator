@@ -69,10 +69,8 @@
                         <manifest>
                             <!--这里要替换成jar包main方法所在类 -->
                             <mainClass>com.ideal.swaggerfilegenerator.Main</mainClass>
+                            <addClasspath>true</addClasspath>
                         </manifest>
-                        <manifestEntries>
-                            <Class-Path>.</Class-Path>
-                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

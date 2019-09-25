@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException, TemplateException {
        String dir=System.getProperty("user.dir");
+        System.out.println(dir);
        File dirfile=new File(dir);
         File[] directories = dirfile.listFiles();
         Processor processor = new Processor();

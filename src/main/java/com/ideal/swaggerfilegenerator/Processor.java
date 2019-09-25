@@ -11,10 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zhaopei
@@ -128,6 +125,8 @@ public class Processor {
             }
         }
         processLeafProp(respList);
+        afterProcess(reqList, "req");
+        afterProcess(respList, "resp");
         map.put("reqList", reqList);
         map.put("respList", respList);
         return map;
@@ -193,4 +192,36 @@ public class Processor {
         return StringUtils.strip(temp);
     }
 
+    public void afterProcess(List<EntityNode> list, String str) {
+        boolean flag = false;
+        Iterator<EntityNode> iter = list.iterator();
+        while (iter.hasNext()) {
+            EntityNode entityNode = iter.next();
+            if ("".equals(entityNode.getParentOrderNo()) && entityNode.isLeafNode()) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            Iterator<EntityNode> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                EntityNode entityNode = iterator.next();
+                entityNode.setOrderNo("1." + entityNode.getOrderNo());
+                if ("".equals(entityNode.getParentOrderNo())) {
+                    entityNode.setParentOrderNo("1");
+                } else {
+                    entityNode.setParentOrderNo("1." + entityNode.getParentOrderNo());
+                }
+            }
+            EntityNode tempEntityNode = new EntityNode("1", "", false, "", true);
+            if ("req".equals(str)) {
+                tempEntityNode.setPropertyName("req");
+                list.add(tempEntityNode);
+            } else if ("resp".equals(str)) {
+                tempEntityNode.setPropertyName("resp");
+                list.add(tempEntityNode);
+            }
+        }
+
+    }
 }
